@@ -115,7 +115,8 @@ var sortTeams = function(games, allTeams, searchTeam) {
     elo[homeTeam].score = newHomeElo;
     var homeGame = {
       score: Number(newHomeElo).toFixed(0),
-      date: game.gameDate
+      date: game.gameDate,
+      result: homeScore - visitorScore
     }
     elo[homeTeam].games.push(homeGame);
 
@@ -123,7 +124,8 @@ var sortTeams = function(games, allTeams, searchTeam) {
     elo[visitorTeam].score = newVisitorElo;
     var visitorGame = {
       score: Number(newVisitorElo).toFixed(0),
-      date: game.gameDate
+      date: game.gameDate,
+      result: visitorScore - homeScore
     }
     elo[visitorTeam].games.push(visitorGame);
     //console.log(visitorTeam + ': ' + newVisitorElo);
