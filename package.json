@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "nohup nodemon bin/www > stdout.txt 2> stderr.txt &"
   },
   "dependencies": {
     "async": "^2.1.2",

@@ -1,2 +1,7 @@
 node_modules
 db/**
+stdout.txt
+stderr.txt
+nohup.out
+npm-debug.log
+
