@@ -136,9 +136,15 @@ var sortTeams = function(games, allTeams, searchTeam) {
   //console.log(elo);
   var eloArray = [];
   for (var team in elo) {
-    var teamId = allTeams.filter(function(myTeam) {
-      return myTeam.name === team;
-    })[0]._id;
+    var teamMatch = allTeams.find(function(myTeam){
+        return myTeam.name === team;
+    });
+    var teamId;
+    if (teamMatch){
+        teamId = teamMatch._id;
+    } else {
+        console.log('cannot find team ' + team + ' in the list');
+    }
 
     if (!searchTeam || searchTeam == teamId) {
       console.log('searchTeam: ' + searchTeam + ' compare: ' + teamId);
