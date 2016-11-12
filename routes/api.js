@@ -10,10 +10,18 @@ router.use(function(req, res, next) {
   //res.setHeader('Access-Control-Allow-Headers', 'headers_you_want_to_accept');
   next();
 });
+var reduceTeams = function(result, team) {
 
+  result[team.name] = team._id;
+
+  return result;
+}
 router.use(function(req, res, next) {
   var allTeams = TeamModel.find().exec().then(function(teams) {
     req.teams = teams;
+
+
+    req.teamMap = teams.reduce(reduceTeams, {});
     next();
   });
 

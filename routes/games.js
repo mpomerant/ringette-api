@@ -7,6 +7,8 @@ var async = require('async');
 /* GET game listing. */
 router.get('/', function(req, res, next) {
   var limit = req.query.limit;
+  var teamMap = req.teamMap;
+
   var query = Game.find({}).sort({
     gameDate: -1
   });
@@ -17,6 +19,22 @@ router.get('/', function(req, res, next) {
 
   query.exec(function(err, games) {
     if (err) throw err;
+    games.forEach(function(game) {
+      var test = {};
+      var homeId = game.homeId;
+      var visitorId = game.visitorId;
+      var _homeId = teamMap[homeId];
+      var _visitorId = teamMap[visitorId];
+      game._homeId = _homeId;
+      game._visitorId = _visitorId;
+
+
+
+
+
+
+
+    });
 
     res.json(games);
   });

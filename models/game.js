@@ -26,6 +26,10 @@ module.exports = mongoose.model('Game', {
     type: String,
     default: ''
   },
+  _homeId: {
+    type: String,
+    default: ''
+  },
   homeScore: {
     type: Number,
     default: 0
@@ -39,6 +43,10 @@ module.exports = mongoose.model('Game', {
   },
   visitorId: {
     type: String
+  },
+  _visitorId: {
+    type: String,
+    default: ''
   },
   visitorScore: {
     type: Number,
