@@ -59,6 +59,7 @@ var reduceRecord = function(result, game) {
   /* GET team listing. */
 router.get('/:teamId', function(req, res, next) {
   var teamId = req.teamId;
+  var teamMap = req.teamMap;
   Team.find({
     _id: teamId
   }, function(err, teams) {
@@ -80,6 +81,14 @@ router.get('/:teamId', function(req, res, next) {
 
         var rsGames = games.filter(function(game) {
           return game.type === 'RS';
+        }).map(function(game) {
+          var homeId = game.homeId;
+          var visitorId = game.visitorId;
+          var _homeId = teamMap[homeId];
+          var _visitorId = teamMap[visitorId];
+          game._homeId = _homeId;
+          game._visitorId = _visitorId;
+          return game;
         });
         rsGames.sort(function(a, b) {
           a = new Date(a.gameDate);
@@ -89,6 +98,14 @@ router.get('/:teamId', function(req, res, next) {
         response.regularSeason = rsGames;
         var tournamentGames = games.filter(function(game) {
           return game.type != 'RS';
+        }).map(function(game) {
+          var homeId = game.homeId;
+          var visitorId = game.visitorId;
+          var _homeId = teamMap[homeId];
+          var _visitorId = teamMap[visitorId];
+          game._homeId = _homeId;
+          game._visitorId = _visitorId;
+          return game;
         })
         tournamentGames.sort(function(a, b) {
           a = new Date(a.gameDate);

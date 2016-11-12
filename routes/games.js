@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
   query.exec(function(err, games) {
     if (err) throw err;
     games.forEach(function(game) {
-      var test = {};
+
       var homeId = game.homeId;
       var visitorId = game.visitorId;
       var _homeId = teamMap[homeId];
