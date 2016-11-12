@@ -136,14 +136,14 @@ var sortTeams = function(games, allTeams, searchTeam) {
   //console.log(elo);
   var eloArray = [];
   for (var team in elo) {
-    var teamMatch = allTeams.find(function(myTeam){
-        return myTeam.name === team;
+    var teamMatch = allTeams.find(function(myTeam) {
+      return myTeam.name === team;
     });
     var teamId;
-    if (teamMatch){
-        teamId = teamMatch._id;
+    if (teamMatch) {
+      teamId = teamMatch._id;
     } else {
-        console.log('cannot find team ' + team + ' in the list');
+      console.log('cannot find team ' + team + ' in the list');
     }
 
     if (!searchTeam || searchTeam == teamId) {
@@ -151,7 +151,7 @@ var sortTeams = function(games, allTeams, searchTeam) {
       eloArray.push({
         id: teamId,
         team: team,
-        rating: elo[team].score.toFixed(3),
+        rating: elo[team].score.toFixed(1),
         games: elo[team].games
       })
     }
