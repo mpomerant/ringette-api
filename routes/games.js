@@ -6,9 +6,16 @@ var async = require('async');
 
 /* GET game listing. */
 router.get('/', function(req, res, next) {
-  Game.find({}).sort({
-    gameDate: 1
-  }).exec(function(err, games) {
+  var limit = req.query.limit;
+  var query = Game.find({}).sort({
+    gameDate: -1
+  });
+
+  if (limit) {
+    query.limit(limit);
+  }
+
+  query.exec(function(err, games) {
     if (err) throw err;
 
     res.json(games);
