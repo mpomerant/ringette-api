@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
   });
 
   if (limit) {
-    query.limit(limit);
+    query.limit(parseInt(limit));
   }
 
   query.exec(function(err, games) {
