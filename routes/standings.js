@@ -8,6 +8,7 @@ var async = require('async');
 var Standing = function(teamId, teamName) {
   var self = this;
   self.teamName = teamName;
+  self.leader = false;
   self.association = function(allTeams) {
     return allTeams.filter(team => team.name === self.teamName)[0].association;
   }
@@ -177,6 +178,7 @@ var getStandings = function(allTeams) {
 
           team: team,
           association: standing.association(allTeams),
+          leader: false,
           id: standing.id,
           links: {
             rel: "team",
@@ -216,6 +218,8 @@ var getStandings = function(allTeams) {
       }).sort(function(a, b) {
         return b.qualifying.points - a.qualifying.points;
       })
+
+
       resolve(results);
 
     });
@@ -235,6 +239,20 @@ router.get('/:associationId', function(req, res, next) {
 router.get('/', function(req, res, next) {
 
   getStandings(req.teams).then(function(results) {
+
+
+    req.associations.forEach(function(association) {
+      var assoc = association;
+      var _standing = results.find(function(standing) {
+        //console.log('standing: ' + standing.association + ' assoc: ' + association + ' yes: ' + (standing.association === association));
+        return standing.association === association;
+      });
+      if (_standing) {
+
+        _standing.leader = true;
+      }
+
+    });
     res.json(results);
   });
 
