@@ -190,6 +190,7 @@ var getStandings = function(allTeams) {
             goalsFor: standing.goalsFor.rs,
             goalsAgainst: standing.goalsAgainst.rs,
             goalsAgainst: standing.goalsAgainst.rs,
+            points: standing.points.rs(),
             winPct: standing.winPct.rs()
           },
           tournament: {
