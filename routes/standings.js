@@ -216,7 +216,11 @@ var getStandings = function(allTeams) {
 
         }
       }).sort(function(a, b) {
-        return b.qualifying.points - a.qualifying.points;
+        var result = b.qualifying.winPct - a.qualifying.winPct;
+        if (result === 0) {
+          result = b.qualifying.games - a.qualifying.games;
+        }
+        return result;
       })
 
 
