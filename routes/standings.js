@@ -136,7 +136,10 @@ var getStandings = function(allTeams) {
           type = 'rs';
           isTournament = false;
         } else if (game.type === 'RR') {
-          isQualifying = true;
+          if (game.homeAssociation.association != 'Other' && game.visitorAssociation.association != 'Other'){
+            isQualifying = true;
+          }
+          
         }
         home.goalsFor[type] += homeScore;
         home.goalsAgainst[type] += visitorScore;
