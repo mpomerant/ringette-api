@@ -10,7 +10,9 @@ router.get('/', function(req, res, next) {
   var teamMap = req.teamMap;
 
   var query = Game.find({}).sort({
-    gameDate: -1
+    gameDate: -1,
+    tournament: -1,
+    gameId: -1
   });
 
   if (limit) {
