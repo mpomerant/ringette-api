@@ -140,8 +140,10 @@ var sortTeams = function(games, allTeams, searchTeam) {
       return myTeam.name === team;
     });
     var teamId;
+    var teamAssociation;
     if (teamMatch) {
       teamId = teamMatch._id;
+      teamAssociation = teamMatch.association;
     } else {
       console.log('cannot find team ' + team + ' in the list');
     }
@@ -151,6 +153,7 @@ var sortTeams = function(games, allTeams, searchTeam) {
       eloArray.push({
         id: teamId,
         team: team,
+        association: teamAssociation,
         rating: elo[team].score.toFixed(1),
         games: elo[team].games
       })
