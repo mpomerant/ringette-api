@@ -73,7 +73,8 @@ router.get('/:teamId', function (req, res, next) {
 
             var team = teams[0];
             var response = {
-                team: team
+                team: team,
+                image: '/css/images/team/' + team + '.png'
             }
             Game.find({
                 $or: [{
