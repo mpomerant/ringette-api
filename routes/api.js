@@ -1,6 +1,5 @@
 var express = require('express');
 var game = require('./games');
-var app = require('../app');
 var team = require('./team');
 var TeamModel = require('../models/team');
 var GameModel = require('../models/game');
@@ -45,9 +44,9 @@ router.use(function (req, res, next) {
 
 router.use(function (req, res, next) {
 
-    if (!app.locals.standings) {
+    if (!req.app.locals.standings) {
         StandingsHelper.getStandings(req.teams).then(function (standings) {
-            app.locals.standings = standings;
+            req.app.locals.standings = standings;
             next();
         });
 
