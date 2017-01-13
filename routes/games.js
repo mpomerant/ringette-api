@@ -148,6 +148,7 @@ var addGames = function(games) {
 router.post('/', function(req, res, next) {
   var games = req.body;
   addGames(games).then(function(gameModels) {
+      req.app.locals.reset = true;
     res.json(gameModels);
   })
 

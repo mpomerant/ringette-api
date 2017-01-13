@@ -44,9 +44,11 @@ router.use(function (req, res, next) {
 
 router.use(function (req, res, next) {
 
-    if (!req.app.locals.standings) {
+    if (!req.app.locals.standings || req.app.locals.reset) {
+        console.log("fetching standings");
         StandingsHelper.getStandings(req.teams).then(function (standings) {
             req.app.locals.standings = standings;
+            req.app.locals.reset = false;
             next();
         });
 
