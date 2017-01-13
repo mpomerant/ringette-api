@@ -10,6 +10,9 @@ router.get('/', function (req, res, next) {
 
         Team.find({}, function (err, teams) {
             if (err) throw err;
+            for (let team of teams) {
+                team.image = '/css/images/team/' + team.name + '.png'
+            }
 
 
             res.json(teams);
@@ -25,6 +28,9 @@ router.get('/', function (req, res, next) {
                 }
             }],
             function (err, teams) {
+                for (let team of teams) {
+                    team.image = '/css/images/team/' + team.name + '.png'
+                }
                 res.json(teams);
             }
         );

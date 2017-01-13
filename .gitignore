@@ -4,4 +4,5 @@ stdout.txt
 stderr.txt
 nohup.out
 npm-debug.log
+.idea
 

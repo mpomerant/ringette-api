@@ -181,6 +181,7 @@ var getStandings = function (allTeams) {
                 return {
 
                     team: team,
+                    image: '/css/images/team/' + team + '.png',
                     association: standing.association(allTeams),
                     provincial: standing.provincial(allTeams),
                     leader: false,
@@ -228,7 +229,7 @@ var getStandings = function (allTeams) {
                     result = b.qualifying.games - a.qualifying.games;
                 }
                 return result;
-            })
+            });
 
 
             resolve(results);
