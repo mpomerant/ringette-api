@@ -33,33 +33,31 @@ router.get('/elo', function (req, res, next) {
 
 router.get('/:associationId', function (req, res, next) {
     var id = req.params.associationId;
-    StandingsHelper.getStandings(req.teams).then(function (results) {
-        var filter = results.filter(function (team) {
-            return team.association.toLowerCase() === id.toLowerCase();
-        })
-        res.json(filter);
-    });
+    var results = req.app.locals.standings;
+    var filter = results.filter(function (team) {
+        return team.association.toLowerCase() === id.toLowerCase();
+    })
+    res.json(filter);
+
 });
 /* GET team listing. */
 router.get('/', function (req, res, next) {
 
-    StandingsHelper.getStandings(req.teams).then(function (results) {
-
-
-        req.associations.forEach(function (association) {
-            var assoc = association;
-            var _standing = results.find(function (standing) {
-                //console.log('standing: ' + standing.association + ' assoc: ' + association + ' yes: ' + (standing.association === association));
-                return standing.association === association;
-            });
-            if (_standing) {
-
-                _standing.leader = true;
-            }
-
+    var results = req.app.locals.standings;
+    req.associations.forEach(function (association) {
+        var assoc = association;
+        var _standing = results.find(function (standing) {
+            //console.log('standing: ' + standing.association + ' assoc: ' + association + ' yes: ' + (standing.association === association));
+            return standing.association === association;
         });
-        res.json(results);
+        if (_standing) {
+
+            _standing.leader = true;
+        }
+
     });
+    res.json(results);
+
 
 });
 
