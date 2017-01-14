@@ -65,6 +65,8 @@ var reduceRecord = function (result, game) {
 router.get('/:teamId', function (req, res, next) {
     var teamId = req.teamId;
     var teamMap = req.teamMap;
+    var standings = req.app.locals.standings;
+    var standing = standings.filter(test => (test.id === teamId));
     Team.find({
         _id: teamId
     }, function (err, teams) {
@@ -130,6 +132,7 @@ router.get('/:teamId', function (req, res, next) {
                     against: 0
 
 
+
                 });
 
                 var tournamentRecord = tournamentGames.reduce(reduceRecord.bind({
@@ -145,7 +148,9 @@ router.get('/:teamId', function (req, res, next) {
 
 
                 rsRecord.pct = (((rsRecord.win * 2) + rsRecord.tie) / (rsRecord.games * 2)).toFixed(3);
+                rsRecord.oppWinPct = standing.rs.oppWinPct;
                 tournamentRecord.pct = (((tournamentRecord.win * 2) + tournamentRecord.tie) / (tournamentRecord.games * 2)).toFixed(3);
+                tournamentRecord.oppWinPct = standing.tournament.oppWinPct;
                 response.regularSeasonRecord = rsRecord;
                 response.tournamentRecord = tournamentRecord;
                 res.json(response);
