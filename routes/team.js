@@ -66,7 +66,7 @@ router.get('/:teamId', function (req, res, next) {
     var teamId = req.teamId;
     var teamMap = req.teamMap;
     var standings = req.app.locals.standings;
-    var standing = standings.filter(test => test.id === teamId);
+    var standing = standings.filter(test => test.id == teamId);
     Team.find({
         _id: teamId
     }, function (err, teams) {
