@@ -16,7 +16,19 @@ var Standing = function (teamId, teamName) {
         tournament: 0,
         qualifying: 0
     };
+    self.oppWin = {
+        rs: 0,
+        tournament: 0,
+        qualifying: 0
+    };
+
     self.loss = {
+        rs: 0,
+        tournament: 0,
+        qualifying: 0
+    };
+
+    self.oppLoss = {
         rs: 0,
         tournament: 0,
         qualifying: 0
@@ -25,7 +37,13 @@ var Standing = function (teamId, teamName) {
         rs: 0,
         tournament: 0,
         qualifying: 0
-    }
+    };
+
+    self.oppTie = {
+        rs: 0,
+        tournament: 0,
+        qualifying: 0
+    };
     self.goalsFor = {
         rs: 0,
         tournament: 0
@@ -69,6 +87,18 @@ var Standing = function (teamId, teamName) {
         },
         qualifying: function () {
             var pct = (self.points.qualifying() / ((self.games.qualifying()) * 2));
+            return isNaN(pct) ? (0).toFixed(3) : pct.toFixed(3);
+        },
+        oppositionRs: function () {
+            var pts = (self.oppWin.rs * 2) + self.oppTie.rs;
+            var games = self.oppWin.rs + self.oppLoss.rs + self.oppTie.rs;
+            var pct = (pts / ((games) * 2));
+            return isNaN(pct) ? (0).toFixed(3) : pct.toFixed(3);
+        },
+        oppositionTournament: function () {
+            var pts = (self.oppWin.tournament * 2) + self.oppTie.tournament;
+            var games = self.oppWin.tournament + self.oppLoss.tournament + self.oppTie.tournament;
+            var pct = (pts / ((games) * 2));
             return isNaN(pct) ? (0).toFixed(3) : pct.toFixed(3);
         }
     }
@@ -148,6 +178,49 @@ var getStandings = function (allTeams) {
 
             })
 
+            games.forEach(function (game) {
+                var homeTeam = game.homeId;
+                var visitorTeam = game.visitorId;
+                var homeId = allTeams.filter(team => team.name === homeTeam)[0]._id;
+                var visitorId = allTeams.filter(team => team.name === visitorTeam)[0]._id;
+                var home;
+                if (standings.hasOwnProperty(homeTeam)) {
+                    home = standings[homeTeam]
+                } else {
+                    home = standings[homeTeam] = new Standing(homeId, homeTeam);
+
+                }
+                var visitor;
+                if (standings.hasOwnProperty(visitorTeam)) {
+                    visitor = standings[visitorTeam]
+                } else {
+                    visitor = standings[visitorTeam] = new Standing(visitorId, visitorTeam);
+                }
+
+
+                if (game.type === 'RS') {
+                    home.oppWin.rs += visitor.win.rs;
+                    visitor.oppWin.rs += home.win.rs;
+
+                    home.oppLoss.rs += visitor.loss.rs;
+                    visitor.oppLoss.rs += home.loss.rs;
+
+                    home.oppTie.rs += visitor.tie.rs;
+                    visitor.oppTie.rs += home.tie.rs;
+                } else {
+                    home.oppWin.tournament += visitor.win.tournament;
+                    visitor.oppWin.tournament += home.win.tournament;
+
+                    home.oppLoss.tournament += visitor.loss.tournament;
+                    visitor.oppLoss.tournament += home.loss.tournament;
+
+                    home.oppTie.tournament += visitor.tie.tournament;
+                    visitor.oppTie.tournament += home.tie.tournament;
+
+                }
+
+            })
+
             var keyNames = Object.keys(standings);
 
             var results = keyNames.map(function (team) {
@@ -173,7 +246,11 @@ var getStandings = function (allTeams) {
                         goalsAgainst: standing.goalsAgainst.rs,
                         goalsAgainst: standing.goalsAgainst.rs,
                         points: standing.points.rs(),
-                        winPct: standing.winPct.rs()
+                        winPct: standing.winPct.rs(),
+                        oppWin: standing.oppWin.rs,
+                        oppLoss: standing.oppLoss.rs,
+                        oppTie: standing.oppTie.rs,
+                        oppWinPct: standing.winPct.oppositionRs()
                     },
                     tournament: {
                         games: standing.games.tournament(),
@@ -182,7 +259,11 @@ var getStandings = function (allTeams) {
                         tie: standing.tie.tournament,
                         goalsFor: standing.goalsFor.tournament,
                         goalsAgainst: standing.goalsAgainst.tournament,
-                        winPct: standing.winPct.tournament()
+                        winPct: standing.winPct.tournament(),
+                        oppWin: standing.oppWin.tournament,
+                        oppLoss: standing.oppLoss.tournament,
+                        oppTie: standing.oppTie.tournament,
+                        oppWinPct: standing.winPct.oppositionTournament()
 
                     },
                     qualifying: {
