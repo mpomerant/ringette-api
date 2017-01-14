@@ -149,8 +149,10 @@ router.get('/:teamId', function (req, res, next) {
 
                 rsRecord.pct = (((rsRecord.win * 2) + rsRecord.tie) / (rsRecord.games * 2)).toFixed(3);
                 rsRecord.oppWinPct = standing[0].rs.oppWinPct;
+                rsRecord.oppRecord = standing[0].rs.oppWin + '-' + standing[0].rs.oppLoss + '-' + standing[0].rs.oppTie;
                 tournamentRecord.pct = (((tournamentRecord.win * 2) + tournamentRecord.tie) / (tournamentRecord.games * 2)).toFixed(3);
                 tournamentRecord.oppWinPct = standing[0].tournament.oppWinPct;
+                tournamentRecord.oppRecord = standing[0].tournament.oppWin + '-' + standing[0].tournament.oppLoss + '-' + standing[0].tournament.oppTie;
                 response.regularSeasonRecord = rsRecord;
                 response.tournamentRecord = tournamentRecord;
                 res.json(response);
