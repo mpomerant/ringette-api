@@ -116,7 +116,7 @@ var getStandings = function (allTeams) {
                 var homeTeam = game.homeId;
                 var visitorTeam = game.visitorId;
                 var homeTeamObj = allTeams.filter(team => team.name === homeTeam)[0];
-                var homeId = homeTeamOjb ? homeTeamObj._id : undefined;
+                var homeId = homeTeamObj ? homeTeamObj._id : undefined;
                 if (!homeId) {
 
                     console.log(`ERROR: could not find ${homeTeam} from game ${game._id}.`);
