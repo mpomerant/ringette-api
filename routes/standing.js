@@ -115,8 +115,17 @@ var getStandings = function (allTeams) {
 
                 var homeTeam = game.homeId;
                 var visitorTeam = game.visitorId;
-                var homeId = allTeams.filter(team => team.name === homeTeam)[0]._id;
-                var visitorId = allTeams.filter(team => team.name === visitorTeam)[0]._id;
+                var homeTeamObj = allTeams.filter(team => team.name === homeTeam)[0];
+                var homeId = homeTeamOjb ? homeTeamObj._id : undefined;
+                if (!homeId) {
+
+                    console.log(`ERROR: could not find ${homeTeam} from game ${game._id}.`);
+                }
+                var visitorTeamObj = allTeams.filter(team => team.name === visitorTeam)[0];
+                var visitorId = visitorTeamObj ? visitorTeamObj._id : undefined;
+                if (!visitorId) {
+                    console.log(`ERROR: could not find ${visitorTeam} from game ${game._id}.`);
+                }
                 var home;
                 if (standings.hasOwnProperty(homeTeam)) {
                     home = standings[homeTeam]
