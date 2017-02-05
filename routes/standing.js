@@ -107,10 +107,16 @@ var Standing = function (teamId, teamName) {
 var getStandings = function (allTeams) {
     return new Promise(function (resolve, reject) {
         var standings = {}
+
+        standings.skipped = {
+            total: 0,
+            games: []
+        }
         Game.find({}).sort({
             gameDate: 1
         }).exec(function (err, games) {
             if (err) throw err;
+
             games.forEach(function (game) {
 
                 var homeTeam = game.homeId;
@@ -120,11 +126,20 @@ var getStandings = function (allTeams) {
                 if (!homeId) {
 
                     console.log(`ERROR: could not find ${homeTeam} from game ${game._id}.`);
+                    standings.skipped.total++;
+                    game.invalid = homeTeam;
+                    standings.skipped.games.push(game);
+                    return;
                 }
                 var visitorTeamObj = allTeams.filter(team => team.name === visitorTeam)[0];
                 var visitorId = visitorTeamObj ? visitorTeamObj._id : undefined;
                 if (!visitorId) {
                     console.log(`ERROR: could not find ${visitorTeam} from game ${game._id}.`);
+                    standings.skipped.total++;
+                    game.invalid = visitorTeam;
+                    standings.skipped.games.push(game);
+                    return;
+
                 }
                 var home;
                 if (standings.hasOwnProperty(homeTeam)) {
