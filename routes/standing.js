@@ -205,8 +205,14 @@ var getStandings = function (allTeams) {
             games.forEach(function (game) {
                 var homeTeam = game.homeId;
                 var visitorTeam = game.visitorId;
-                var homeId = allTeams.filter(team => team.name === homeTeam)[0]._id;
-                var visitorId = allTeams.filter(team => team.name === visitorTeam)[0]._id;
+                var homeObj = allTeams.filter(team => team.name === homeTeam)[0];
+                var visitorObj = allTeams.filter(team => team.name === visitorTeam)[0];
+                if (!homeObj || !visitorObj) {
+
+                    return;
+                }
+                var homeId = homeObj._id;
+                var visitorId = visitorObj._id;
                 var home;
                 if (standings.hasOwnProperty(homeTeam)) {
                     home = standings[homeTeam]
