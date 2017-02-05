@@ -251,7 +251,9 @@ var getStandings = function (allTeams) {
 
             })
 
-            var keyNames = Object.keys(standings);
+            var keyNames = Object.keys(standings).filter(function (key) {
+                return key !== 'skipped';
+            });
 
             var results = keyNames.map(function (team) {
                 var standing = standings[team];
